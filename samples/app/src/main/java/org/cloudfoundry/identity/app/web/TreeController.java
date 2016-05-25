@@ -16,7 +16,10 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.cloudfoundry.identity.uaa.client.SocialClientUserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,7 +69,10 @@ public class TreeController {
 
     private List<Map<String, Object>> getItems(String type) throws Exception {
         @SuppressWarnings("unchecked")
-        List<Map<String, Object>> result = restTemplate.getForObject(treeUrlPattern, List.class, type);
+        ObjectMapper mapper = new ObjectMapper();
+        String str = restTemplate.getForObject(treeUrlPattern, String.class, type);
+        List<Map<String, Object>> result;
+        result = mapper.readValue(str, new TypeReference<List<Map<String, Object>>>(){});
         return result;
     }
 

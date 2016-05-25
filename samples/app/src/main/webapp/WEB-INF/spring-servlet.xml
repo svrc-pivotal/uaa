@@ -21,7 +21,7 @@
 
 	<http name="appFilterApps" pattern="/apps.*" request-matcher="regex" xmlns="http://www.springframework.org/schema/security"
 		entry-point-ref="loginEntryPoint" disable-url-rewriting="true" use-expressions="true" authentication-manager-ref="authenticationManager">
-		<intercept-url pattern="/apps.*" access="hasRole('cloud_controller.read')" />
+		<intercept-url pattern="/apps.*" access="hasAuthority('cloud_controller.read')" />
 		<anonymous enabled="false" />
 		<custom-filter ref="oauth2ClientFilter" before="PRE_AUTH_FILTER" />
 		<custom-filter ref="accessTokenFilter" position="PRE_AUTH_FILTER" />
