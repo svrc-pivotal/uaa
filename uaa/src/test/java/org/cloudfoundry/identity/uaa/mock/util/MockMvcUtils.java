@@ -24,6 +24,7 @@ import org.cloudfoundry.identity.uaa.constants.OriginKeys;
 import org.cloudfoundry.identity.uaa.invitations.InvitationsRequest;
 import org.cloudfoundry.identity.uaa.invitations.InvitationsResponse;
 import org.cloudfoundry.identity.uaa.login.Prompt;
+import org.cloudfoundry.identity.uaa.oauth.client.ClientConstants;
 import org.cloudfoundry.identity.uaa.oauth.client.ClientDetailsModification;
 import org.cloudfoundry.identity.uaa.oauth.token.TokenConstants;
 import org.cloudfoundry.identity.uaa.provider.AbstractIdentityProviderDefinition;
@@ -75,6 +76,7 @@ import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.common.util.RandomValueStringGenerator;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.web.PortResolverImpl;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -94,11 +96,14 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -150,6 +155,9 @@ public final class MockMvcUtils {
         "    <md:EmailAddress>fhanik@pivotal.io</md:EmailAddress>\n" +
         "  </md:ContactPerson>\n" +
         "</md:EntityDescriptor>";
+
+    public static final String SECRET = "secret";
+    public static final String TEST_REDIRECT_URI = "http://test.example.org/redirect";
 
     public static MockMvcUtils utils() {
         // this is all static now
@@ -981,6 +989,39 @@ public final class MockMvcUtils {
             }
         }
         return false;
+    }
+
+    public static BaseClientDetails setUpClients(JdbcClientDetailsService clientDetailsService, String id, String authorities, String scopes, String grantTypes, Boolean autoapprove, String redirectUri, List<String> allowedIdps, int accessTokenValidity) {
+        BaseClientDetails c = new BaseClientDetails(id, "", scopes, grantTypes, authorities);
+        if (!"implicit".equals(grantTypes)) {
+            c.setClientSecret(SECRET);
+        }
+        c.setRegisteredRedirectUri(new HashSet<>(Arrays.asList(TEST_REDIRECT_URI)));
+        Map<String, Object> additional = new HashMap<>();
+        additional.put(ClientConstants.AUTO_APPROVE, autoapprove.toString());
+        if (allowedIdps!=null && !allowedIdps.isEmpty()) {
+            additional.put(ClientConstants.ALLOWED_PROVIDERS, allowedIdps);
+        }
+        c.setAdditionalInformation(additional);
+        if (StringUtils.hasText(redirectUri)) {
+            c.setRegisteredRedirectUri(new HashSet<>(Arrays.asList(redirectUri)));
+        }
+        if (accessTokenValidity>0) {
+            c.setAccessTokenValiditySeconds(accessTokenValidity);
+        }
+        clientDetailsService.addClientDetails(c);
+        return (BaseClientDetails) clientDetailsService.loadClientByClientId(c.getClientId());
+    }
+
+    public static IdentityZone setupIdentityZone(IdentityZoneProvisioning identityZoneProvisioning, String subdomain) {
+        IdentityZone zone = new IdentityZone();
+        zone.getConfig().getTokenPolicy().setKeys(Collections.singletonMap(subdomain+"_key", "key_for_"+subdomain));
+        zone.setId(UUID.randomUUID().toString());
+        zone.setName(subdomain);
+        zone.setSubdomain(subdomain);
+        zone.setDescription(subdomain);
+        identityZoneProvisioning.create(zone);
+        return zone;
     }
 
     public static class MockSecurityContext implements SecurityContext {

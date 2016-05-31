@@ -19,10 +19,10 @@ import org.cloudfoundry.identity.uaa.authentication.UaaAuthenticationDetails;
 import org.cloudfoundry.identity.uaa.authentication.UaaPrincipal;
 import org.cloudfoundry.identity.uaa.constants.OriginKeys;
 import org.cloudfoundry.identity.uaa.mock.InjectedMockContextTest;
+import org.cloudfoundry.identity.uaa.mock.util.MockMvcUtils;
 import org.cloudfoundry.identity.uaa.oauth.DisableIdTokenResponseTypeFilter;
 import org.cloudfoundry.identity.uaa.oauth.KeyInfo;
 import org.cloudfoundry.identity.uaa.oauth.UaaTokenServices;
-import org.cloudfoundry.identity.uaa.oauth.client.ClientConstants;
 import org.cloudfoundry.identity.uaa.oauth.jwt.Jwt;
 import org.cloudfoundry.identity.uaa.oauth.jwt.JwtHelper;
 import org.cloudfoundry.identity.uaa.oauth.token.ClaimConstants;
@@ -88,10 +88,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -99,8 +97,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.UUID;
 
+import static org.cloudfoundry.identity.uaa.mock.util.MockMvcUtils.SECRET;
+import static org.cloudfoundry.identity.uaa.mock.util.MockMvcUtils.TEST_REDIRECT_URI;
 import static org.cloudfoundry.identity.uaa.mock.util.MockMvcUtils.createClient;
 import static org.cloudfoundry.identity.uaa.mock.util.MockMvcUtils.createUser;
 import static org.cloudfoundry.identity.uaa.mock.util.MockMvcUtils.getClientCredentialsOAuthAccessToken;
@@ -132,9 +131,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class TokenMvcMockTests extends InjectedMockContextTest {
 
-    private String SECRET = "secret";
+
     private String GRANT_TYPES = "password,implicit,client_credentials,authorization_code";
-    private String TEST_REDIRECT_URI = "http://test.example.org/redirect";
+
 
     private TestClient testClient;
     private JdbcClientDetailsService clientDetailsService;
@@ -176,14 +175,7 @@ public class TokenMvcMockTests extends InjectedMockContextTest {
     }
 
     private IdentityZone setupIdentityZone(String subdomain) {
-        IdentityZone zone = new IdentityZone();
-        zone.getConfig().getTokenPolicy().setKeys(Collections.singletonMap(subdomain+"_key", "key_for_"+subdomain));
-        zone.setId(UUID.randomUUID().toString());
-        zone.setName(subdomain);
-        zone.setSubdomain(subdomain);
-        zone.setDescription(subdomain);
-        identityZoneProvisioning.create(zone);
-        return zone;
+        return MockMvcUtils.setupIdentityZone(identityZoneProvisioning, subdomain);
     }
 
     private IdentityProvider setupIdentityProvider() {
@@ -205,29 +197,9 @@ public class TokenMvcMockTests extends InjectedMockContextTest {
         return setUpClients(id, authorities, scopes, grantTypes, autoapprove, redirectUri, null);
     }
     protected BaseClientDetails setUpClients(String id, String authorities, String scopes, String grantTypes, Boolean autoapprove, String redirectUri, List<String> allowedIdps) {
-        return setUpClients(id, authorities, scopes, grantTypes, autoapprove, redirectUri, allowedIdps, -1);
+        return MockMvcUtils.setUpClients(clientDetailsService, id, authorities, scopes, grantTypes, autoapprove, redirectUri, allowedIdps, -1);
     }
-    protected BaseClientDetails setUpClients(String id, String authorities, String scopes, String grantTypes, Boolean autoapprove, String redirectUri, List<String> allowedIdps, int accessTokenValidity) {
-        BaseClientDetails c = new BaseClientDetails(id, "", scopes, grantTypes, authorities);
-        if (!"implicit".equals(grantTypes)) {
-            c.setClientSecret(SECRET);
-        }
-        c.setRegisteredRedirectUri(new HashSet<>(Arrays.asList(TEST_REDIRECT_URI)));
-        Map<String, Object> additional = new HashMap<>();
-        additional.put(ClientConstants.AUTO_APPROVE, autoapprove.toString());
-        if (allowedIdps!=null && !allowedIdps.isEmpty()) {
-            additional.put(ClientConstants.ALLOWED_PROVIDERS, allowedIdps);
-        }
-        c.setAdditionalInformation(additional);
-        if (StringUtils.hasText(redirectUri)) {
-            c.setRegisteredRedirectUri(new HashSet<>(Arrays.asList(redirectUri)));
-        }
-        if (accessTokenValidity>0) {
-            c.setAccessTokenValiditySeconds(accessTokenValidity);
-        }
-        clientDetailsService.addClientDetails(c);
-        return (BaseClientDetails) clientDetailsService.loadClientByClientId(c.getClientId());
-    }
+
 
     protected ScimUser setUpUser(String username, String scopes, String origin, String zoneId) {
         ScimUser user = new ScimUser(null, username, "GivenName", "FamilyName");
@@ -1429,7 +1401,7 @@ public class TokenMvcMockTests extends InjectedMockContextTest {
     public void test_Token_Expiry_Time() throws Exception {
         String clientId = "testclient" + new RandomValueStringGenerator().generate();
         String scopes = "space.*.developer,space.*.admin,org.*.reader,org.123*.admin,*.*,*";
-        setUpClients(clientId, scopes, scopes, GRANT_TYPES, true,null,null,60*60*24*3650);
+        MockMvcUtils.setUpClients(clientDetailsService,clientId, scopes, scopes, GRANT_TYPES, true,null,null,60*60*24*3650);
         String userId = "testuser" + new RandomValueStringGenerator().generate();
         String userScopes = "space.1.developer,space.2.developer,org.1.reader,org.2.reader,org.12345.admin,scope.one,scope.two,scope.three";
         ScimUser developer = setUpUser(userId, userScopes, OriginKeys.UAA, IdentityZoneHolder.get().getId());
