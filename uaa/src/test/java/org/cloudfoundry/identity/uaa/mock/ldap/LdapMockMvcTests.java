@@ -52,8 +52,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -1176,6 +1174,7 @@ public class LdapMockMvcTests extends TestClassNullifier {
             "cloud_controller.read",
             "user_attributes",
             "uaa.refresh_token",
+            "uaa.api.token",
             "thirdmarissa"
         };
         assertThat(list, arrayContainingInAnyOrder(getAuthorities(auth.getAuthorities())));

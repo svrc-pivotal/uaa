@@ -1400,7 +1400,7 @@ public class TokenMvcMockTests extends InjectedMockContextTest {
     @Test
     public void test_Token_Expiry_Time() throws Exception {
         String clientId = "testclient" + new RandomValueStringGenerator().generate();
-        String scopes = "space.*.developer,space.*.admin,org.*.reader,org.123*.admin,*.*,*";
+        String scopes = "space.*.developer,space.*.admin,org.*.reader,org.123*.admin,*.*,*,uaa.api.token";
         MockMvcUtils.setUpClients(clientDetailsService,clientId, scopes, scopes, GRANT_TYPES, true,null,null,60*60*24*3650);
         String userId = "testuser" + new RandomValueStringGenerator().generate();
         String userScopes = "space.1.developer,space.2.developer,org.1.reader,org.2.reader,org.12345.admin,scope.one,scope.two,scope.three";
@@ -1436,7 +1436,7 @@ public class TokenMvcMockTests extends InjectedMockContextTest {
     @Test
     public void testWildcardPasswordGrant() throws Exception {
         String clientId = "testclient"+new RandomValueStringGenerator().generate();
-        String scopes = "space.*.developer,space.*.admin,org.*.reader,org.123*.admin,*.*,*";
+        String scopes = "space.*.developer,space.*.admin,org.*.reader,org.123*.admin,*.*,*,uaa.api.token";
         setUpClients(clientId, scopes, scopes, GRANT_TYPES, true);
         String userId = "testuser"+new RandomValueStringGenerator().generate();
         String userScopes = "space.1.developer,space.2.developer,org.1.reader,org.2.reader,org.12345.admin,scope.one,scope.two,scope.three";
@@ -1500,7 +1500,7 @@ public class TokenMvcMockTests extends InjectedMockContextTest {
         validatePasswordGrantToken(
             clientId,
             userId,
-            "org.123*.admin,space.*.developer,*.*",
+            "org.123*.admin,space.*.developer,*.*,uaa.api.token",
             set1.toArray(new String[0])
         );
         validatePasswordGrantToken(
@@ -2584,10 +2584,10 @@ public class TokenMvcMockTests extends InjectedMockContextTest {
 
         OAuth2Authentication a1 = tokenServices.loadAuthentication(oauthToken.accessToken);
 
-        assertEquals(4, a1.getOAuth2Request().getScope().size());
+        assertEquals(5, a1.getOAuth2Request().getScope().size());
         assertThat(
             a1.getOAuth2Request().getScope(),
-            containsInAnyOrder(new String[]{zoneadmingroup, "openid", "cloud_controller.read", "cloud_controller.write"})
+            containsInAnyOrder(new String[]{zoneadmingroup, "openid", "cloud_controller.read", "cloud_controller.write", "uaa.api.token"})
         );
 
     }

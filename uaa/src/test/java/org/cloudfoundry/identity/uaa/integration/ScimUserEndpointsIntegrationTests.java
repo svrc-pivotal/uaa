@@ -63,7 +63,7 @@ public class ScimUserEndpointsIntegrationTests {
 
     private final String usersEndpoint = "/Users";
 
-    private static final int NUM_DEFAULT_GROUPS_ON_STARTUP = 14;
+    private static final int NUM_DEFAULT_GROUPS_ON_STARTUP = 15;
 
     @Rule
     public ServerRunning serverRunning = ServerRunning.isRunning();
