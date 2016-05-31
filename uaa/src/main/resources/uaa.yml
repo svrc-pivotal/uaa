@@ -170,6 +170,7 @@ scim:
     uaa.admin: Act as an administrator throughout the UAA
     uaa.none: Forbid acting as a user
     uaa.refresh_token: Allow offline access
+    uaa.api.token: Allow application to generate API keys
 
 oauth:
   user:
@@ -188,6 +189,7 @@ oauth:
       - roles
       - user_attributes
       - uaa.refresh_token
+      - uaa.api.token
 
 # Default token signing key. Each installation MUST provide a unique key
 # in order for tokens to be usable only on that installation.

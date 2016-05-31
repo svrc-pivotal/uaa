@@ -19,5 +19,6 @@ public class TokenConstants {
 
     public static final String REQUEST_TOKEN_FORMAT = "token_format";
     public static final String OPAQUE = "opaque";
+    public static final String EXPIRES_IN = "expires_in";
 
 }
