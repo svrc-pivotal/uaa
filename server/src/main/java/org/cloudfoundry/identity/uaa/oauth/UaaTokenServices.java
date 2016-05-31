@@ -121,6 +121,7 @@ import static org.cloudfoundry.identity.uaa.oauth.token.ClaimConstants.USER_NAME
 import static org.cloudfoundry.identity.uaa.oauth.token.ClaimConstants.ZONE_ID;
 import static org.cloudfoundry.identity.uaa.oauth.token.RevocableToken.TokenFormat.JWT;
 import static org.cloudfoundry.identity.uaa.oauth.token.RevocableToken.TokenFormat.OPAQUE;
+import static org.cloudfoundry.identity.uaa.oauth.token.TokenConstants.isClientOverrideAllowed;
 import static org.cloudfoundry.identity.uaa.util.TokenValidation.validate;
 
 
@@ -617,6 +618,9 @@ public class UaaTokenServices implements AuthorizationServerTokenServices, Resou
         int zoneAccessTokenValidity = getZoneAccessTokenValidity();
 
         Integer validity = client.getAccessTokenValiditySeconds();
+        if (authentication.getOAuth2Request().getRequestParameters().get(TokenConstants.EXPIRES_IN)!=null && isClientOverrideAllowed()) {
+            validity = Integer.valueOf(authentication.getOAuth2Request().getRequestParameters().get(TokenConstants.EXPIRES_IN));
+        }
         Set<String> responseTypes = extractResponseTypes(authentication);
 
 

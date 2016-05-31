@@ -82,13 +82,19 @@ public class ApiTokenEndpoint {
         parameters.put(OAuth2Utils.RESPONSE_TYPE,"token");
         parameters.put(TokenConstants.REQUEST_TOKEN_FORMAT, TokenConstants.OPAQUE);
         if (expiresIn>0) {
+            TokenConstants.setClientOverride(true);
             parameters.put(TokenConstants.EXPIRES_IN, String.valueOf(expiresIn));
+        } else {
+            TokenConstants.setClientOverride(false);
+        }
+        try {
+            Authentication uaaAuthentication = new UaaAuthentication(principal, EMPTY_LIST, new UaaAuthenticationDetails(servletRequest));
+            OAuth2Authentication tokenRequest = new OAuth2Authentication(requestFactory.createAuthorizationRequest(parameters).createOAuth2Request(), uaaAuthentication);
+            return tokenServices.createAccessToken(tokenRequest);
+        } finally {
+            TokenConstants.setClientOverride(false);
         }
 
-
-        Authentication uaaAuthentication = new UaaAuthentication(principal, EMPTY_LIST, new UaaAuthenticationDetails(servletRequest));
-        OAuth2Authentication tokenRequest = new OAuth2Authentication(requestFactory.createAuthorizationRequest(parameters).createOAuth2Request(), uaaAuthentication);
-        return tokenServices.createAccessToken(tokenRequest);
     }
 
     protected UaaUser validateUser(UaaPrincipal principal) {
