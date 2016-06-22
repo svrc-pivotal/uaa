@@ -312,6 +312,7 @@
         <util:list id="defaultUsers">
             <value>marissa|koala|marissa@test.org|Marissa|Bloggs|uaa.user</value>
             <value>testbootuser|password|testbootuser@test.org|Test|Bootstrap|uaa.user,scim.read</value>
+            <value>international琳贺|password|international琳贺@test.org|琳贺|琳贺|uaa.user</value>
         </util:list>
         <util:list id="defaultMembers">
             <value>acme|acme.dev,acme.qa</value>
