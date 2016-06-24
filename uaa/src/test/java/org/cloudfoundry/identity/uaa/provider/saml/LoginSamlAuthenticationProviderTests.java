@@ -125,68 +125,8 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
     private ScimGroup uaaSamlUser;
     private ScimGroup uaaSamlAdmin;
     private ScimGroup uaaSamlTest;
-
-    public List<Attribute> getAttributes(Map<String,Object> values) {
-        List<Attribute> result = new LinkedList<>();
-        for (Map.Entry<String,Object> entry : values.entrySet()) {
-            result.addAll(getAttributes(entry.getKey(), entry.getValue()));
-        }
-        return result;
-    }
-    public List<Attribute> getAttributes(final String name, Object value) {
-        Attribute attribute = mock(Attribute.class);
-        when(attribute.getName()).thenReturn(name);
-        when(attribute.getFriendlyName()).thenReturn(name);
-
-        List<XMLObject> xmlObjects = new LinkedList<>();
-        if ("XSURI".equals(name)) {
-            XSURIImpl impl = new AttributedURIImpl("", "", "");
-            impl.setValue((String)value);
-            xmlObjects.add(impl);
-        } else if ("XSAny".equals(name)) {
-            XSAnyImpl impl = new XSAnyImpl("","","") {};
-            impl.setTextContent((String)value);
-            xmlObjects.add(impl);
-        } else if ("XSQName".equals(name)) {
-            XSQNameImpl impl = new XSQNameImpl("","","") {};
-            impl.setValue(new QName("", (String)value));
-            xmlObjects.add(impl);
-        } else if ("XSInteger".equals(name)) {
-            XSIntegerImpl impl = new XSIntegerImpl("","",""){};
-            impl.setValue((Integer)value);
-            xmlObjects.add(impl);
-        } else if ("XSBoolean".equals(name)) {
-            XSBooleanImpl impl = new XSBooleanImpl("","",""){};
-            impl.setValue(new XSBooleanValue((Boolean)value, false));
-            xmlObjects.add(impl);
-        } else if ("XSDateTime".equals(name)) {
-            XSDateTimeImpl impl = new XSDateTimeImpl("","",""){};
-            impl.setValue((DateTime)value);
-            xmlObjects.add(impl);
-        } else if ("XSBase64Binary".equals(name)) {
-            XSBase64BinaryImpl impl = new XSBase64BinaryImpl("","",""){};
-            impl.setValue((String)value);
-            xmlObjects.add(impl);
-        } else if (value instanceof List) {
-            for (String s : (List<String>) value) {
-                if (SAML_USER.equals(s)) {
-                    XSAnyImpl impl = new XSAnyImpl("","","") {};
-                    impl.setTextContent(s);
-                    xmlObjects.add(impl);
-                } else {
-                    AttributedStringImpl impl = new AttributedStringImpl("", "", "");
-                    impl.setValue(s);
-                    xmlObjects.add(impl);
-                }
-            }
-        } else {
-            AttributedStringImpl impl = new AttributedStringImpl("", "", "");
-            impl.setValue((String)value);
-            xmlObjects.add(impl);
-        }
-        when(attribute.getAttributeValues()).thenReturn(xmlObjects);
-        return Arrays.asList(attribute);
-    }
+    private ExtendedMetadata metadata;
+    private SAMLMessageContext contxt;
 
     @Before
     public void configureProvider() throws Exception {
@@ -212,15 +152,8 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
 
         consumer = mock(WebSSOProfileConsumer.class);
         credential = getUserCredential("marissa-saml", "Marissa", "Bloggs", "marissa.bloggs@test.com", "1234567890");
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("firstName", "Marissa");
-        attributes.put("lastName", "Bloggs");
-        attributes.put("emailAddress", "marissa.bloggs@test.com");
-        attributes.put("phone", "1234567890");
-        attributes.put("groups", Arrays.asList(SAML_USER,SAML_ADMIN,SAML_NOT_MAPPED));
-        attributes.put("2ndgroups", Arrays.asList(SAML_TEST));
 
-        when(consumer.processAuthenticationResponse(anyObject())).thenReturn(credential);
+        when(consumer.processAuthenticationResponse(anyObject())).thenAnswer(call -> credential);
 
         userDatabase = new JdbcUaaUserDatabase(jdbcTemplate);
         userDatabase.setDefaultAuthorities(new HashSet<>(Arrays.asList(UaaAuthority.UAA_USER.getAuthority())));
@@ -245,6 +178,12 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
         providerDefinition.setIdpEntityAlias(OriginKeys.SAML);
         provider.setConfig(providerDefinition);
         provider = providerProvisioning.create(provider);
+
+        metadata = mock(ExtendedMetadata.class);
+        when(metadata.getAlias()).thenReturn(OriginKeys.SAML);
+        contxt = mock(SAMLMessageContext.class);
+        when(contxt.getPeerExtendedMetadata()).thenReturn(metadata);
+        when(contxt.getCommunicationProfileId()).thenReturn(SAMLConstants.SAML2_WEBSSO_PROFILE_URI);
     }
 
     private SAMLCredential getUserCredential(String username, String firstName, String lastName, String emailAddress, String phoneNumber) {
@@ -280,7 +219,7 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
 
     @Test
     public void testAuthenticateSimple() {
-        authprovider.authenticate(mockSamlAuthentication(OriginKeys.SAML));
+        authprovider.authenticate(mockSamlAuthentication());
     }
 
     @Test
@@ -409,18 +348,26 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
 
     @Test
     public void update_invitedUser_whose_username_is_notEmail() throws Exception {
-        ScimUser scimUser = getInvitedUser();
+        Map<String,Object> attributeMappings = new HashMap<>();
+        attributeMappings.put("email", "emailAddress");
+        providerDefinition.setAttributeMappings(attributeMappings);
+        provider.setConfig(providerDefinition);
+        providerProvisioning.update(provider);
 
-        SAMLCredential credential = getUserCredential("marissa-invited", "Marissa-invited", null, "marissa.invited@test.org", null);
-        when(consumer.processAuthenticationResponse(anyObject())).thenReturn(credential);
-        getAuthentication();
+        try {
+            ScimUser scimUser = getInvitedUser();
 
-        UaaUser user = userDatabase.retrieveUserById(scimUser.getId());
-        assertTrue(user.isVerified());
-        assertEquals("marissa-invited", user.getUsername());
-        assertEquals("marissa.invited@test.org", user.getEmail());
+            SAMLCredential credential = getUserCredential("marissa-invited", "Marissa-invited", null, "marissa.invited@test.org", null);
+            when(consumer.processAuthenticationResponse(anyObject())).thenReturn(credential);
+            getAuthentication();
 
-        RequestContextHolder.resetRequestAttributes();
+            UaaUser user = userDatabase.retrieveUserById(scimUser.getId());
+            assertTrue(user.isVerified());
+            assertEquals("marissa-invited", user.getUsername());
+            assertEquals("marissa.invited@test.org", user.getEmail());
+        } finally {
+            RequestContextHolder.resetRequestAttributes();
+        }
     }
 
     @Test
@@ -527,6 +474,19 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
         assertEquals("marissa-saml", uaaUser.getUsername());
     }
 
+    @Test(expected = BadCredentialsException.class)
+    public void givenNewUserEmailDoesNotMatch_InviteAcceptanceFails() {
+        try {
+            getInvitedUser();
+
+//            RequestAttributes requestAttributes = mock(RequestAttributes.class);
+            credential = getUserCredential("marissa-saml", "Marissa", "Bloggs", "marissa.bloggs.authed@test.com", "1234567890");
+            authprovider.authenticate(mockSamlAuthentication());
+        } finally {
+            RequestContextHolder.resetRequestAttributes();
+        }
+    }
+
     @Test(expected = IncorrectResultSizeDataAccessException.class)
     public void error_when_multipleUsers_with_sameEmail() throws Exception {
         Map<String,Object> attributeMappings = new HashMap<>();
@@ -591,19 +551,13 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
     }
 
     protected UaaAuthentication getAuthentication() {
-        SAMLAuthenticationToken authentication1 = mockSamlAuthentication(OriginKeys.SAML);
-        Authentication authentication = authprovider.authenticate(authentication1);
+        Authentication authentication = authprovider.authenticate(mockSamlAuthentication());
         assertNotNull("Authentication should exist", authentication);
         assertTrue("Authentication should be UaaAuthentication", authentication instanceof UaaAuthentication);
         return (UaaAuthentication)authentication;
     }
 
-    protected SAMLAuthenticationToken mockSamlAuthentication(String originKey) {
-        ExtendedMetadata metadata = mock(ExtendedMetadata.class);
-        when(metadata.getAlias()).thenReturn(originKey);
-        SAMLMessageContext contxt = mock(SAMLMessageContext.class);
-        when(contxt.getPeerExtendedMetadata()).thenReturn(metadata);
-        when(contxt.getCommunicationProfileId()).thenReturn(SAMLConstants.SAML2_WEBSSO_PROFILE_URI);
+    protected SAMLAuthenticationToken mockSamlAuthentication() {
         return new SAMLAuthenticationToken(contxt);
     }
 
@@ -628,6 +582,68 @@ public class LoginSamlAuthenticationProviderTests extends JdbcTestBase {
             throw new UnsupportedOperationException("not implemented");
         }
 
+    }
+
+    public List<Attribute> getAttributes(Map<String,Object> values) {
+        List<Attribute> result = new LinkedList<>();
+        for (Map.Entry<String,Object> entry : values.entrySet()) {
+            result.addAll(getAttributes(entry.getKey(), entry.getValue()));
+        }
+        return result;
+    }
+    public List<Attribute> getAttributes(final String name, Object value) {
+        Attribute attribute = mock(Attribute.class);
+        when(attribute.getName()).thenReturn(name);
+        when(attribute.getFriendlyName()).thenReturn(name);
+
+        List<XMLObject> xmlObjects = new LinkedList<>();
+        if ("XSURI".equals(name)) {
+            XSURIImpl impl = new AttributedURIImpl("", "", "");
+            impl.setValue((String)value);
+            xmlObjects.add(impl);
+        } else if ("XSAny".equals(name)) {
+            XSAnyImpl impl = new XSAnyImpl("","","") {};
+            impl.setTextContent((String)value);
+            xmlObjects.add(impl);
+        } else if ("XSQName".equals(name)) {
+            XSQNameImpl impl = new XSQNameImpl("","","") {};
+            impl.setValue(new QName("", (String)value));
+            xmlObjects.add(impl);
+        } else if ("XSInteger".equals(name)) {
+            XSIntegerImpl impl = new XSIntegerImpl("","",""){};
+            impl.setValue((Integer)value);
+            xmlObjects.add(impl);
+        } else if ("XSBoolean".equals(name)) {
+            XSBooleanImpl impl = new XSBooleanImpl("","",""){};
+            impl.setValue(new XSBooleanValue((Boolean)value, false));
+            xmlObjects.add(impl);
+        } else if ("XSDateTime".equals(name)) {
+            XSDateTimeImpl impl = new XSDateTimeImpl("","",""){};
+            impl.setValue((DateTime)value);
+            xmlObjects.add(impl);
+        } else if ("XSBase64Binary".equals(name)) {
+            XSBase64BinaryImpl impl = new XSBase64BinaryImpl("","",""){};
+            impl.setValue((String)value);
+            xmlObjects.add(impl);
+        } else if (value instanceof List) {
+            for (String s : (List<String>) value) {
+                if (SAML_USER.equals(s)) {
+                    XSAnyImpl impl = new XSAnyImpl("","","") {};
+                    impl.setTextContent(s);
+                    xmlObjects.add(impl);
+                } else {
+                    AttributedStringImpl impl = new AttributedStringImpl("", "", "");
+                    impl.setValue(s);
+                    xmlObjects.add(impl);
+                }
+            }
+        } else {
+            AttributedStringImpl impl = new AttributedStringImpl("", "", "");
+            impl.setValue((String)value);
+            xmlObjects.add(impl);
+        }
+        when(attribute.getAttributeValues()).thenReturn(xmlObjects);
+        return Arrays.asList(attribute);
     }
 
     public static final String IDP_META_DATA =

@@ -121,8 +121,6 @@ public class LoginSamlAuthenticationProvider extends SAMLAuthenticationProvider 
             throw new IllegalArgumentException("Only SAMLAuthenticationToken is supported, " + authentication.getClass() + " was attempted");
         }
 
-        IdentityZone zone = IdentityZoneHolder.get();
-
         SAMLAuthenticationToken token = (SAMLAuthenticationToken) authentication;
         SAMLMessageContext context = token.getCredentials();
         String alias = context.getPeerExtendedMetadata().getAlias();
@@ -140,7 +138,6 @@ public class LoginSamlAuthenticationProvider extends SAMLAuthenticationProvider 
             throw new ProviderNotFoundException("No SAML identity provider found in zone for alias:"+alias);
         }
         ExpiringUsernameAuthenticationToken result = getExpiringUsernameAuthenticationToken(authentication);
-        UaaPrincipal samlPrincipal = new UaaPrincipal(OriginKeys.NotANumber, result.getName(), result.getName(), alias, result.getName(), zone.getId());
         Collection<? extends GrantedAuthority> samlAuthorities = retrieveSamlAuthorities(samlConfig, (SAMLCredential) result.getCredentials());
 
         Collection<? extends GrantedAuthority> authorities = null;
@@ -156,7 +153,7 @@ public class LoginSamlAuthenticationProvider extends SAMLAuthenticationProvider 
 
         Set<String> filteredExternalGroups = filterSamlAuthorities(samlConfig, samlAuthorities);
         MultiValueMap<String, String> userAttributes = retrieveUserAttributes(samlConfig, (SAMLCredential) result.getCredentials());
-        UaaUser user = createIfMissing(samlPrincipal, addNew, authorities, userAttributes);
+        UaaUser user = createIfMissing(alias, result, addNew, authorities, userAttributes);
         UaaPrincipal principal = new UaaPrincipal(user);
         return new LoginSamlAuthenticationToken(principal, result).getUaaAuthentication(user.getAuthorities(), filteredExternalGroups, userAttributes);
     }
@@ -268,40 +265,43 @@ public class LoginSamlAuthenticationProvider extends SAMLAuthenticationProvider 
         return null;
     }
 
-    protected UaaUser createIfMissing(UaaPrincipal samlPrincipal, boolean addNew, Collection<? extends GrantedAuthority> authorities, MultiValueMap<String, String> userAttributes) {
+    protected UaaUser createIfMissing(String idpAlias, ExpiringUsernameAuthenticationToken samlCredential, boolean addNew, Collection<? extends GrantedAuthority> authorities, MultiValueMap<String, String> userAttributes) {
         UaaUser user = null;
-        String invitedUserId = null;
+        userAttributes = userAttributes != null ? new LinkedMultiValueMap<>(userAttributes) : new LinkedMultiValueMap<>();
         boolean is_invitation_acceptance = isAcceptedInvitationAuthentication();
         if (is_invitation_acceptance) {
-            invitedUserId = (String) RequestContextHolder.currentRequestAttributes().getAttribute("user_id", RequestAttributes.SCOPE_SESSION);
+            addNew = false;
+
+            String invitedUserId = (String) RequestContextHolder.currentRequestAttributes().getAttribute("user_id", RequestAttributes.SCOPE_SESSION);
             user = userDatabase.retrieveUserById(invitedUserId);
-            if ( userAttributes.getFirst(EMAIL_ATTRIBUTE_NAME) != null ) {
-                if (!userAttributes.getFirst(EMAIL_ATTRIBUTE_NAME).equalsIgnoreCase(user.getEmail()) ) {
+
+            String invitedUserEmail = user.getEmail();
+            if(userAttributes.get(EMAIL_ATTRIBUTE_NAME) == null || !userAttributes.get(EMAIL_ATTRIBUTE_NAME).stream().anyMatch(invitedUserEmail::equalsIgnoreCase)) {
+                if(invitedUserEmail.equalsIgnoreCase(samlCredential.getName())) {
+                    userAttributes.add(EMAIL_ATTRIBUTE_NAME, samlCredential.getName());
+                } else {
                     throw new BadCredentialsException("SAML User email mismatch. Authenticated email doesn't match invited email.");
                 }
-            } else {
-                userAttributes = new LinkedMultiValueMap<>(userAttributes);
-                userAttributes.add(EMAIL_ATTRIBUTE_NAME, user.getEmail());
             }
-            addNew = false;
-            if(user.getUsername().equals(user.getEmail()) && !user.getUsername().equals(samlPrincipal.getName())) {
-                user.setVerified(true);
-                user = user.modifyUsername(samlPrincipal.getName());
+
+            if(user.getUsername().equals(user.getEmail()) && !user.getUsername().equals(samlCredential.getName())) {
+                user = user.modifyUsername(samlCredential.getName());
             }
+            user.setVerified(true);
             publish(new InvitedUserAuthenticatedEvent(user));
             user = userDatabase.retrieveUserById(invitedUserId);
         }
 
         boolean userModified = false;
-        UaaUser userWithSamlAttributes = getUser(samlPrincipal, userAttributes);
+        UaaUser userWithSamlAttributes = getUser(new UaaPrincipal(OriginKeys.NotANumber, samlCredential.getName(), samlCredential.getName(), idpAlias, samlCredential.getName(), IdentityZoneHolder.get().getId()), userAttributes);
         try {
             if (user==null) {
-                user = userDatabase.retrieveUserByName(samlPrincipal.getName(), samlPrincipal.getOrigin());
+                user = userDatabase.retrieveUserByName(samlCredential.getName(), idpAlias);
             }
         } catch (UsernameNotFoundException e) {
-            UaaUser uaaUser = userDatabase.retrieveUserByEmail(userWithSamlAttributes.getEmail(), samlPrincipal.getOrigin());
+            UaaUser uaaUser = userDatabase.retrieveUserByEmail(userWithSamlAttributes.getEmail(), idpAlias);
             if (uaaUser != null) {
-                user = uaaUser.modifyUsername(samlPrincipal.getName());
+                user = uaaUser.modifyUsername(samlCredential.getName());
             } else {
                 if (!addNew) {
                     throw new LoginSAMLException("SAML user does not exist. "
@@ -310,9 +310,9 @@ public class LoginSamlAuthenticationProvider extends SAMLAuthenticationProvider 
                 // Register new users automatically
                 publish(new NewUserAuthenticatedEvent(userWithSamlAttributes));
                 try {
-                    user = userDatabase.retrieveUserByName(samlPrincipal.getName(), samlPrincipal.getOrigin());
+                    user = userDatabase.retrieveUserByName(samlCredential.getName(), idpAlias);
                 } catch (UsernameNotFoundException ex) {
-                    throw new BadCredentialsException("Unable to establish shadow user for SAML user:"+ samlPrincipal.getName());
+                    throw new BadCredentialsException("Unable to establish shadow user for SAML user:"+ samlCredential.getName());
                 }
             }
         }
