@@ -828,14 +828,14 @@ grant_type=client_credentials&amp;response_type=token&amp;token_format=opaque
 </tbody></table>
 
 <h2 id="password-grant">Password Grant</h2>
-<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/oauth/token'</span> -i -X POST -H <span class="s1">'Accept: application/json'</span> -H <span class="s1">'Content-Type: application/x-www-form-urlencoded'</span> -d <span class="s1">'client_id=app&amp;client_secret=appclientsecret&amp;grant_type=password&amp;username=VHHF1H%40test.org&amp;password=secr3T&amp;token_format=opaque&amp;response_type=token'</span>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/oauth/token'</span> -i -X POST -H <span class="s1">'Accept: application/json'</span> -H <span class="s1">'Content-Type: application/x-www-form-urlencoded'</span> -d <span class="s1">'client_id=app&amp;client_secret=appclientsecret&amp;grant_type=password&amp;username=VHHF1H%40example.org&amp;password=secr3T&amp;token_format=opaque&amp;response_type=token'</span>
 </code></pre>
 <pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/oauth/token</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost</span>
 
-client_id=app&amp;client_secret=appclientsecret&amp;grant_type=password&amp;username=VHHF1H%40test.org&amp;password=secr3T&amp;token_format=opaque&amp;response_type=token
+client_id=app&amp;client_secret=appclientsecret&amp;grant_type=password&amp;username=VHHF1H%40example.org&amp;password=secr3T&amp;token_format=opaque&amp;response_type=token
 </code></pre>
 <pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-cache, no-store, max-age=0, must-revalidate</span>
@@ -1505,7 +1505,7 @@ token=275e10debd3942ac9c84f40e2a1c1f1a&amp;scopes=password.write%2Cscim.userids
 <span class="p">{</span><span class="w">
   </span><span class="nt">"user_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"5f45debe-fa7b-484c-8277-5842c4cdcdcf"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"user_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"marissa"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"marissa@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"marissa@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"app"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"exp"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1467102757</span><span class="p">,</span><span class="w">
   </span><span class="nt">"scope"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"scim.userids"</span><span class="p">,</span><span class="w"> </span><span class="s2">"openid"</span><span class="p">,</span><span class="w"> </span><span class="s2">"cloud_controller.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"password.write"</span><span class="p">,</span><span class="w"> </span><span class="s2">"cloud_controller.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -6018,8 +6018,8 @@ The available strategies for authentication are</p>
     "emailDomain" : null,
     "providerDescription" : null,
     "attributeMappings" : { },
-    "authUrl" : "http://auth.url",
-    "tokenUrl" : "http://token.url",
+    "authUrl" : "http://auth.url.example.com",
+    "tokenUrl" : "http://token.url.example.com",
     "tokenKeyUrl" : null,
     "tokenKey" : "token-key",
     "linkText" : null,
@@ -6047,8 +6047,8 @@ The available strategies for authentication are</p>
     </span><span class="nt">"emailDomain"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"providerDescription"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"attributeMappings"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"authUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://auth.url"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"tokenUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://token.url"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"authUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://auth.url.example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"tokenUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://token.url.example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tokenKeyUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tokenKey"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"token-key"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"linkText"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
@@ -6082,8 +6082,8 @@ The available strategies for authentication are</p>
     </span><span class="nt">"providerDescription"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"externalGroupsWhitelist"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"attributeMappings"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"authUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://auth.url"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"tokenUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://token.url"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"authUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://auth.url.example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"tokenUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://token.url.example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tokenKeyUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tokenKey"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"token-key"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"linkText"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
@@ -6545,8 +6545,8 @@ The available strategies for authentication are</p>
     </span><span class="nt">"providerDescription"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"externalGroupsWhitelist"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"attributeMappings"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"authUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://auth.url"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"tokenUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://token.url"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"authUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://auth.url.example.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"tokenUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://token.url.example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tokenKeyUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"tokenKey"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"token-key"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"linkText"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
@@ -7328,9 +7328,9 @@ The available strategies for authentication are</p>
 <p>Users can be queried, created and updated via the <code class="prettyprint">/Users</code> endpoint.</p>
 
 <h2 id="list">List</h2>
-<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/Users?filter=id+eq+%222ef89160-425d-4daf-be1e-242a42f5cd4d%22+or+email+eq+%22mhYOTT%40test.org%22&amp;sortBy=email&amp;count=50&amp;sortOrder=ascending&amp;startIndex=1'</span> -i -H <span class="s1">'Accept: application/json'</span> -H <span class="s1">'Authorization: Bearer 9e5c9ce46d8e4db5968d3714d88a73bd'</span>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/Users?filter=id+eq+%222ef89160-425d-4daf-be1e-242a42f5cd4d%22+or+email+eq+%22mhYOTT%40example.org%22&amp;sortBy=email&amp;count=50&amp;sortOrder=ascending&amp;startIndex=1'</span> -i -H <span class="s1">'Accept: application/json'</span> -H <span class="s1">'Authorization: Bearer 9e5c9ce46d8e4db5968d3714d88a73bd'</span>
 </code></pre>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/Users?filter=id+eq+%222ef89160-425d-4daf-be1e-242a42f5cd4d%22+or+email+eq+%22mhYOTT%40test.org%22&amp;sortBy=email&amp;count=50&amp;sortOrder=ascending&amp;startIndex=1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/Users?filter=id+eq+%222ef89160-425d-4daf-be1e-242a42f5cd4d%22+or+email+eq+%22mhYOTT%40example.org%22&amp;sortBy=email&amp;count=50&amp;sortOrder=ascending&amp;startIndex=1</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Accept</span><span class="p">:</span> <span class="s">application/json</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer 9e5c9ce46d8e4db5968d3714d88a73bd</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost</span>
@@ -7355,13 +7355,13 @@ The available strategies for authentication are</p>
       </span><span class="nt">"created"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.103Z"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"lastModified"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.103Z"</span><span class="w">
     </span><span class="p">},</span><span class="w">
-    </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mhYOTT@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mhYOTT@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nt">"familyName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"family name"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"givenName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"given name"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mhYOTT@test.org"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mhYOTT@example.org"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"primary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"groups"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -7732,14 +7732,14 @@ uaac users
     "version" : 0,
     "created" : "2016-06-27T20:32:51.489Z"
   },
-  "userName" : "RZcHka@test.org",
+  "userName" : "RZcHka@example.org",
   "name" : {
     "formatted" : "given name family name",
     "familyName" : "family name",
     "givenName" : "given name"
   },
   "emails" : [ {
-    "value" : "RZcHka@test.org",
+    "value" : "RZcHka@example.org",
     "primary" : true
   } ],
   "phoneNumbers" : [ {
@@ -7765,14 +7765,14 @@ uaac users
     </span><span class="nt">"version"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="nt">"created"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.489Z"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"formatted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"given name family name"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"family name"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"givenName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"given name"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"primary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
   </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"phoneNumbers"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -7804,13 +7804,13 @@ uaac users
     </span><span class="nt">"created"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.590Z"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"lastModified"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.590Z"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"family name"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"givenName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"given name"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RZcHka@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"primary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
   </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"groups"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -8167,7 +8167,7 @@ uaac users
 
 uaac token client get admin -s adminsecret
 
-uaac user add testuser --given_name About --family_name Schmidt --emails testuser@test.org --password secret
+uaac user add testuser --given_name About --family_name Schmidt --emails testuser@example.org --password secret
 </code></pre>
 
 <h2 id="update">Update</h2>
@@ -8179,13 +8179,13 @@ uaac user add testuser --given_name About --family_name Schmidt --emails testuse
     "created" : "2016-06-27T20:32:51.283Z",
     "lastModified" : "2016-06-27T20:32:51.283Z"
   },
-  "userName" : "rpkspT@test.org",
+  "userName" : "rpkspT@example.org",
   "name" : {
     "familyName" : "family name",
     "givenName" : "given name"
   },
   "emails" : [ {
-    "value" : "rpkspT@test.org",
+    "value" : "rpkspT@example.org",
     "primary" : false
   } ],
   "groups" : [ ],
@@ -8217,13 +8217,13 @@ uaac user add testuser --given_name About --family_name Schmidt --emails testuse
     </span><span class="nt">"created"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.283Z"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"lastModified"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.283Z"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"family name"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"givenName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"given name"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"primary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
   </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"groups"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -8258,13 +8258,13 @@ uaac user add testuser --given_name About --family_name Schmidt --emails testuse
     </span><span class="nt">"created"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.283Z"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"lastModified"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:51.320Z"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"family name"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"givenName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"given name"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"rpkspT@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"primary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
   </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"groups"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -8663,7 +8663,7 @@ uaac user add testuser --given_name About --family_name Schmidt --emails testuse
 
 uaac token client get admin -s adminsecret
 
-uaac user update testuser --given_name About --family_name Schmidt --emails testuser@test.org --phones 415-555-1212
+uaac user update testuser --given_name About --family_name Schmidt --emails testuser@example.org --phones 415-555-1212
 </code></pre>
 
 <h2 id="delete">Delete</h2>
@@ -8696,13 +8696,13 @@ uaac user update testuser --given_name About --family_name Schmidt --emails test
     </span><span class="nt">"created"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:50.229Z"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"lastModified"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2016-06-27T20:32:50.229Z"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"51UVH0@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"51UVH0@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"familyName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"family name"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"givenName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"given name"</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"51UVH0@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"51UVH0@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"primary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
   </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"groups"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -9036,10 +9036,10 @@ uaac user delete testuser
 
 <span class="p">{</span><span class="w">
   </span><span class="nt">"user_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"bbed83e4-e62d-4846-8bbc-397cc9ded84a"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"user_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"sTv0i9@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"user_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"sTv0i9@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"given_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"PasswordResetUserFirst"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"family_name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"PasswordResetUserLast"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"sTv0i9@test.org"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"sTv0i9@example.org"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"phone_number"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"+15558880000"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"PasswordResetUserFirst PasswordResetUserLast"</span><span class="w">
 </span><span class="p">}</span><span class="w">
@@ -9476,9 +9476,9 @@ uaac password change -o secret -p newsecret
 </tbody></table>
 
 <h2 id="lookup-user-ids-usernames">Lookup User IDs/Usernames</h2>
-<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/ids/Users?filter=userName+eq+%22bobbM27Ge%40test.org%22+or+id+eq+%22149a69aa-86d9-4c28-abee-86c37dfc7b42%22&amp;sortOrder=descending&amp;startIndex=1&amp;count=10&amp;includeInactive=true'</span> -i -H <span class="s1">'Authorization: Bearer 4aa6c1c589aa4843a0472e061ae6aa90'</span>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/ids/Users?filter=userName+eq+%22bobbM27Ge%40example.org%22+or+id+eq+%22149a69aa-86d9-4c28-abee-86c37dfc7b42%22&amp;sortOrder=descending&amp;startIndex=1&amp;count=10&amp;includeInactive=true'</span> -i -H <span class="s1">'Authorization: Bearer 4aa6c1c589aa4843a0472e061ae6aa90'</span>
 </code></pre>
-<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/ids/Users?filter=userName+eq+%22bobbM27Ge%40test.org%22+or+id+eq+%22149a69aa-86d9-4c28-abee-86c37dfc7b42%22&amp;sortOrder=descending&amp;startIndex=1&amp;count=10&amp;includeInactive=true</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<pre class="highlight http"><code><span class="nf">GET</span> <span class="nn">/ids/Users?filter=userName+eq+%22bobbM27Ge%40example.org%22+or+id+eq+%22149a69aa-86d9-4c28-abee-86c37dfc7b42%22&amp;sortOrder=descending&amp;startIndex=1&amp;count=10&amp;includeInactive=true</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer 4aa6c1c589aa4843a0472e061ae6aa90</span>
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost</span>
 
@@ -9496,11 +9496,11 @@ uaac password change -o secret -p newsecret
 <span class="p">{</span><span class="w">
   </span><span class="nt">"resources"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"149a69aa-86d9-4c28-abee-86c37dfc7b42"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"dwayneAQQUlW@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"dwayneAQQUlW@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"origin"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"uaa"</span><span class="w">
   </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nt">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"4ecfb577-7989-4cad-855e-046b0cf13218"</span><span class="p">,</span><span class="w">
-    </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"bobbM27Ge@test.org"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"userName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"bobbM27Ge@example.org"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"origin"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"uaa"</span><span class="w">
   </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"startIndex"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
@@ -9632,7 +9632,7 @@ uaac password change -o secret -p newsecret
 
 <h2 id="invite-users">Invite users</h2>
 <pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/invite_users?client_id=1o9juq&amp;redirect_uri=example.com'</span> -i -X POST -H <span class="s1">'Authorization: Bearer 30dc6a534ae749db9fa6c0ca7fe51c3d'</span> -H <span class="s1">'Content-Type: application/json'</span> -d <span class="s1">'{
-  "emails" : [ "user1@wc9ax7.com", "user2@wc9ax7.com" ]
+  "emails" : [ "user1@example.com", "user2@example.com" ]
 }'</span>
 </code></pre>
 <pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/invite_users?client_id=1o9juq&amp;redirect_uri=example.com</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -9642,7 +9642,7 @@ uaac password change -o secret -p newsecret
 <span class="na">Content-Length</span><span class="p">:</span> <span class="s">59</span>
 
 <span class="p">{</span><span class="w">
-  </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"user1@wc9ax7.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"user2@wc9ax7.com"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"user1@example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"user2@example.com"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
@@ -9657,7 +9657,7 @@ uaac password change -o secret -p newsecret
 
 <span class="p">{</span><span class="w">
   </span><span class="nt">"new_invites"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"user1@wc9ax7.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"user1@example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"userId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"9cd56e0c-3ae8-4899-91cd-75c37a11c387"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"origin"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"uaa"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"success"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -9665,7 +9665,7 @@ uaac password change -o secret -p newsecret
     </span><span class="nt">"errorMessage"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
     </span><span class="nt">"inviteLink"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost/invitations/accept?code=Sj4flVnd05"</span><span class="w">
   </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"user2@wc9ax7.com"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"email"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"user2@example.com"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"userId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"12502bda-9ac0-469f-8ac2-ad4b4c65681c"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"origin"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"uaa"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"success"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -11095,7 +11095,7 @@ uaac password change -o secret -p newsecret
       </span><span class="nt">"givenName"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"cool-name"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nt">"emails"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"cool@chill.com"</span><span class="p">,</span><span class="w">
+      </span><span class="nt">"value"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"cool@chill.example.com"</span><span class="p">,</span><span class="w">
       </span><span class="nt">"primary"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
     </span><span class="p">}</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"active"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -11784,7 +11784,7 @@ uaac password change -o secret -p newsecret
   "autoapprove" : true,
   "allowedproviders" : [ "uaa", "ldap", "my-saml-provider" ],
   "name" : "My Client Name",
-  "redirect_uri" : [ "http://test1.com", "http*://ant.path.wildcard/**/passback/*" ]
+  "redirect_uri" : [ "http://test1.example.com", "http*://ant.path.wildcard/**/passback/*" ]
 }'</span>
 </code></pre>
 <pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/oauth/clients</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -11804,7 +11804,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allowedproviders"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uaa"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ldap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"my-saml-provider"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"My Client Name"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
@@ -11822,7 +11822,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"mtMJmS"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"fGHrzf"</span><span class="p">,</span><span class="w">
@@ -12036,7 +12036,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RoXWdB"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"nNUNmH"</span><span class="p">,</span><span class="w">
@@ -12189,7 +12189,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"24syLU"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.autoapprove"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"xDrxlJ"</span><span class="p">,</span><span class="w">
@@ -12413,7 +12413,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"CsVszL"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Pem13p"</span><span class="p">,</span><span class="w">
@@ -12648,7 +12648,7 @@ uaac password change -o secret -p newsecret
     </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"m5ik4x"</span><span class="p">,</span><span class="w">
     </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-    </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+    </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
     </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"yQP615"</span><span class="p">,</span><span class="w">
@@ -12826,7 +12826,7 @@ uaac password change -o secret -p newsecret
   "autoapprove" : true,
   "allowedproviders" : [ "uaa", "ldap", "my-saml-provider" ],
   "name" : "My Client Name",
-  "redirect_uri" : [ "http://test1.com", "http*://ant.path.wildcard/**/passback/*" ]
+  "redirect_uri" : [ "http://test1.example.com", "http*://ant.path.wildcard/**/passback/*" ]
 }, {
   "scope" : [ "clients.read", "clients.write" ],
   "client_id" : "3sw1Yo",
@@ -12837,7 +12837,7 @@ uaac password change -o secret -p newsecret
   "autoapprove" : true,
   "allowedproviders" : [ "uaa", "ldap", "my-saml-provider" ],
   "name" : "My Client Name",
-  "redirect_uri" : [ "http://test1.com", "http*://ant.path.wildcard/**/passback/*" ]
+  "redirect_uri" : [ "http://test1.example.com", "http*://ant.path.wildcard/**/passback/*" ]
 } ]'</span>
 </code></pre>
 <pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/oauth/clients/tx</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -12857,7 +12857,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allowedproviders"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uaa"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ldap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"my-saml-provider"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"My Client Name"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nt">"scope"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"3sw1Yo"</span><span class="p">,</span><span class="w">
@@ -12868,7 +12868,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allowedproviders"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uaa"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ldap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"my-saml-provider"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"My Client Name"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">201</span> <span class="ne">Created</span>
@@ -12886,7 +12886,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"TIBvuq"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"R7TSLH"</span><span class="p">,</span><span class="w">
@@ -12898,7 +12898,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"3sw1Yo"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RJEah9"</span><span class="p">,</span><span class="w">
@@ -13093,7 +13093,7 @@ uaac password change -o secret -p newsecret
   "scope" : [ "clients.read", "clients.write" ],
   "client_id" : "TIBvuq",
   "authorized_grant_types" : [ "client_credentials" ],
-  "redirect_uri" : [ "http://test1.com", "http*://ant.path.wildcard/**/passback/*" ],
+  "redirect_uri" : [ "http://test1.example.com", "http*://ant.path.wildcard/**/passback/*" ],
   "authorities" : [ "clients.read", "clients.write" ],
   "token_salt" : "R7TSLH",
   "autoapprove" : true,
@@ -13108,7 +13108,7 @@ uaac password change -o secret -p newsecret
   "autoapprove" : true,
   "allowedproviders" : [ "uaa", "ldap", "my-saml-provider" ],
   "name" : "My Client Name",
-  "redirect_uri" : [ "http://test1.com", "http*://ant.path.wildcard/**/passback/*" ]
+  "redirect_uri" : [ "http://test1.example.com", "http*://ant.path.wildcard/**/passback/*" ]
 } ]'</span>
 </code></pre>
 <pre class="highlight http"><code><span class="nf">PUT</span> <span class="nn">/oauth/clients/tx</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -13122,7 +13122,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"scope"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"TIBvuq"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"R7TSLH"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -13137,7 +13137,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allowedproviders"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uaa"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ldap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"my-saml-provider"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"My Client Name"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
@@ -13155,7 +13155,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"TIBvuq"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"R7TSLH"</span><span class="p">,</span><span class="w">
@@ -13167,7 +13167,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"3sw1Yo"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"new.authority"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RJEah9"</span><span class="p">,</span><span class="w">
@@ -13390,7 +13390,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"TIBvuq"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"R7TSLH"</span><span class="p">,</span><span class="w">
@@ -13403,7 +13403,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"3sw1Yo"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"new.authority"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"RJEah9"</span><span class="p">,</span><span class="w">
@@ -13559,7 +13559,7 @@ uaac password change -o secret -p newsecret
   "autoapprove" : true,
   "allowedproviders" : [ "uaa", "ldap", "my-saml-provider" ],
   "name" : "My Client Name",
-  "redirect_uri" : [ "http://test1.com", "http*://ant.path.wildcard/**/passback/*" ]
+  "redirect_uri" : [ "http://test1.example.com", "http*://ant.path.wildcard/**/passback/*" ]
 } ]'</span>
 </code></pre>
 <pre class="highlight http"><code><span class="nf">POST</span> <span class="nn">/oauth/clients/tx/modify</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
@@ -13588,7 +13588,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nt">"allowedproviders"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"uaa"</span><span class="p">,</span><span class="w"> </span><span class="s2">"ldap"</span><span class="p">,</span><span class="w"> </span><span class="s2">"my-saml-provider"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"name"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"My Client Name"</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
@@ -13614,7 +13614,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"3sw1Yo"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"delete"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"new.authority"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -13628,7 +13628,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"fwbEYE"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"action"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"add"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
@@ -13804,7 +13804,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"TIBvuq"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"R7TSLH"</span><span class="p">,</span><span class="w">
@@ -13817,7 +13817,7 @@ uaac password change -o secret -p newsecret
   </span><span class="nt">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"fwbEYE"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"resource_ids"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"none"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorized_grant_types"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"client_credentials"</span><span class="w"> </span><span class="p">],</span><span class="w">
-  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
+  </span><span class="nt">"redirect_uri"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"http*://ant.path.wildcard/**/passback/*"</span><span class="p">,</span><span class="w"> </span><span class="s2">"http://test1.example.com"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"autoapprove"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"true"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"authorities"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"clients.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"clients.write"</span><span class="w"> </span><span class="p">],</span><span class="w">
   </span><span class="nt">"token_salt"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"52YS1q"</span><span class="p">,</span><span class="w">
@@ -13965,7 +13965,7 @@ uaac password change -o secret -p newsecret
 <span class="p">{</span><span class="w">
   </span><span class="nt">"clientId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"PEWm3wpz"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"showOnHomePage"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://myloginpage.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://myloginpage.example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"appIcon"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"aWNvbiBmb3IgY2xpZW50IDQ="</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -14065,22 +14065,22 @@ uaac password change -o secret -p newsecret
 <span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nt">"clientId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"G2nskBVt"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"showOnHomePage"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://client3.com/app"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://client3.example.com/app"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"appIcon"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"Y2xpZW50IDMgaWNvbg=="</span><span class="w">
 </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nt">"clientId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"GI9RFHXc"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"showOnHomePage"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://myloginpage.com"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://myloginpage.example.com"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"appIcon"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"aWNvbiBmb3IgY2xpZW50IDQ="</span><span class="w">
 </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nt">"clientId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WNDEQWu3"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"showOnHomePage"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://changed.app.launch/url"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://changed.app.launch.example.com/url"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"appIcon"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w">
   </span><span class="nt">"clientId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"vwgc9dDl"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"showOnHomePage"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://client4.com/app"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://client4.example.com/app"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"appIcon"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"aWNvbiBmb3IgY2xpZW50IDQ="</span><span class="w">
 </span><span class="p">}</span><span class="w"> </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -14131,7 +14131,7 @@ uaac password change -o secret -p newsecret
 </tbody></table>
 
 <h3 id="update">Update</h3>
-<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/oauth/clients/WNDEQWu3/meta'</span> -i -X PUT -H <span class="s1">'Authorization: Bearer 5bad4bc4e29f4134b510f098b0b8098e'</span> -H <span class="s1">'If-Match: 0'</span> -H <span class="s1">'Accept: application/json'</span> -H <span class="s1">'Content-Type: application/json'</span> -d <span class="s1">'{"clientId":"WNDEQWu3","showOnHomePage":false,"appLaunchUrl":"http://changed.app.launch/url"}'</span>
+<pre class="highlight shell"><code><span class="gp">$ </span>curl <span class="s1">'http://localhost/oauth/clients/WNDEQWu3/meta'</span> -i -X PUT -H <span class="s1">'Authorization: Bearer 5bad4bc4e29f4134b510f098b0b8098e'</span> -H <span class="s1">'If-Match: 0'</span> -H <span class="s1">'Accept: application/json'</span> -H <span class="s1">'Content-Type: application/json'</span> -d <span class="s1">'{"clientId":"WNDEQWu3","showOnHomePage":false,"appLaunchUrl":"http://changed.app.launch.example.com/url"}'</span>
 </code></pre>
 <pre class="highlight http"><code><span class="nf">PUT</span> <span class="nn">/oauth/clients/WNDEQWu3/meta</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer 5bad4bc4e29f4134b510f098b0b8098e</span>
@@ -14141,7 +14141,7 @@ uaac password change -o secret -p newsecret
 <span class="na">Host</span><span class="p">:</span> <span class="s">localhost</span>
 <span class="na">Content-Length</span><span class="p">:</span> <span class="s">93</span>
 
-<span class="p">{</span><span class="nt">"clientId"</span><span class="p">:</span><span class="s2">"WNDEQWu3"</span><span class="p">,</span><span class="nt">"showOnHomePage"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="nt">"appLaunchUrl"</span><span class="p">:</span><span class="s2">"http://changed.app.launch/url"</span><span class="p">}</span><span class="w">
+<span class="p">{</span><span class="nt">"clientId"</span><span class="p">:</span><span class="s2">"WNDEQWu3"</span><span class="p">,</span><span class="nt">"showOnHomePage"</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="nt">"appLaunchUrl"</span><span class="p">:</span><span class="s2">"http://changed.app.launch.example.com/url"</span><span class="p">}</span><span class="w">
 </span></code></pre>
 <pre class="highlight http"><code><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
 <span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-cache, no-store, max-age=0, must-revalidate</span>
@@ -14156,7 +14156,7 @@ uaac password change -o secret -p newsecret
 <span class="p">{</span><span class="w">
   </span><span class="nt">"clientId"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"WNDEQWu3"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"showOnHomePage"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://changed.app.launch/url"</span><span class="p">,</span><span class="w">
+  </span><span class="nt">"appLaunchUrl"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"http://changed.app.launch.example.com/url"</span><span class="p">,</span><span class="w">
   </span><span class="nt">"appIcon"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
