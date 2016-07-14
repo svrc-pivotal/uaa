@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
 
 import org.cloudfoundry.identity.uaa.integration.util.IntegrationTestUtils;
@@ -212,7 +215,8 @@ public class AutologinIT {
             new HttpEntity<>(requestBody, headers),
             String.class);
         cookies = loginResponse.getHeaders().get("Set-Cookie");
-        assertEquals(2, cookies.size());
+        assertThat(cookies, hasItem(startsWith("JSESSIONID")));
+        assertThat(cookies, hasItem(startsWith("X-Uaa-Csrf")));
         headers.clear();
         for (String cookie : loginResponse.getHeaders().get("Set-Cookie")) {
             headers.add("Cookie", cookie);
