@@ -209,7 +209,7 @@ def jacocoJarPath = project.zipTree(configurations.jacocoAgent.singleFile).filte
 def integrationTestCoverageExecutionData = "${buildDir}/integrationTestCoverageReport.exec"
 
 cargo {
-  containerId = 'tomcat7x'
+  containerId = 'tomcat8x'
   port = 8080
 
   deployable {
