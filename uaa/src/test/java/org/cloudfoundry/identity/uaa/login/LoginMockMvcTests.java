@@ -140,18 +140,26 @@ public class LoginMockMvcTests extends InjectedMockContextTest {
     private XmlWebApplicationContext webApplicationContext;
     private IdentityZoneConfiguration originalConfiguration;
     private IdentityZoneConfiguration identityZoneConfiguration;
+
     private CsrfTokenRepository csrfTokenRepository;
     private MockHttpServletRequest mockHttpServletRequest;
 
 
     @Before
-    public void setUpContext() throws Exception {
-        SecurityContextHolder.clearContext();
-
+    public void storeAwayCsrfRepo() throws Exception {
         MockHttpServletRequestBuilder builder = get("/change_email");
         mockHttpServletRequest = builder.buildRequest((ServletContext) ReflectionTestUtils.getField(getMockMvc(), "servletContext"));
         csrfTokenRepository = WebTestUtils.getCsrfTokenRepository(mockHttpServletRequest);
+    }
 
+    @After
+    public void restoreCsrfRepo() throws Exception {
+        WebTestUtils.setCsrfTokenRepository(mockHttpServletRequest, csrfTokenRepository);
+    }
+
+    @Before
+    public void setUpContext() throws Exception {
+        SecurityContextHolder.clearContext();
         webApplicationContext = getWebApplicationContext();
         mockEnvironment = (MockEnvironment) webApplicationContext.getEnvironment();
         f.setAccessible(true);
@@ -171,7 +179,6 @@ public class LoginMockMvcTests extends InjectedMockContextTest {
 
     @After
     public void tearDown() throws Exception {
-        WebTestUtils.setCsrfTokenRepository(mockHttpServletRequest, csrfTokenRepository);
         //restore all properties
         setSelfServiceLinksEnabled(true);
         setDisableInternalUserManagement(false);
