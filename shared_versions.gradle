@@ -34,5 +34,6 @@ ext {
   thymeleafDialectVersion = '1.2.3'
   thymeleafExtrasVersion = '2.1.1.RELEASE'
   tomcatVersion = '8.0.36'
+  tomcatJdbcPoolVersion = '8.0.36'
   validationAPIVersion = '1.0.0.GA'
 }
