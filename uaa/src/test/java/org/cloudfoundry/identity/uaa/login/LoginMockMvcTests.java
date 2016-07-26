@@ -202,6 +202,41 @@ public class LoginMockMvcTests extends InjectedMockContextTest {
             .andExpect(content().string(containsString("/create_account")));
     }
 
+    @Test
+    public void test_redirect() throws Exception {
+        getMockMvc().perform(get("/"))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("http://localhost/login"));
+    }
+
+    @Test
+    public void test_redirect_with_host_and_port() throws Exception {
+        getMockMvc().perform(
+            get("/")
+                .header("Host","localhost:8080")
+            )
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("http://localhost:8080/login"));
+    }
+
+    @Test
+    public void test_absolute_redirect_after_login() throws Exception {
+        ScimUser user = createUser("", adminToken);
+        getMockMvc().perform(
+            post("/login.do")
+                .with(cookieCsrf())
+                .param("username", user.getUserName())
+                .param("password", user.getPassword())
+                .with(request -> {
+                    request.setServerName("localhost");
+                    request.setServerPort(8080);
+                    return request;
+                })
+        )
+            .andDo(print())
+            .andExpect(redirectedUrl("http://localhost:8080/"));
+    }
+
     protected void setDisableInternalAuth(boolean disable) {
        MockMvcUtils.setDisableInternalAuth(getWebApplicationContext(), getUaa().getId(), disable);
     }

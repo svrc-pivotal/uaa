@@ -117,6 +117,7 @@ public class LoginIT {
                                           new HttpEntity<>(requestBody, headers),
                                           String.class);
         cookies = loginResponse.getHeaders().get("Set-Cookie");
+        //we get two CSRF cookies, one deletes the old one
         assertEquals(2, cookies.size());
         headers.clear();
         boolean jsessionIdValidated = false;
