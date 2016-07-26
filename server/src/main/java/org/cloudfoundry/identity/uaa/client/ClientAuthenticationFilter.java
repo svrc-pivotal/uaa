@@ -13,8 +13,10 @@
 
 package org.cloudfoundry.identity.uaa.client;
 
+import java.io.IOException;
 import java.security.Principal;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -117,7 +119,11 @@ public class ClientAuthenticationFilter extends AbstractPreAuthenticatedProcessi
         else {
             // If the exception is not a Spring Security exception this will
             // result in a default error page
-            super.unsuccessfulAuthentication(request, response, failed);
+            try {
+                super.unsuccessfulAuthentication(request, response, failed);
+            } catch (IOException | ServletException e) {
+                throw new RuntimeException(e.getMessage(), failed);
+            }
         }
     }
 
